@@ -91,5 +91,5 @@ void sub(stack_t **stack, unsigned int num_line);
 void mul(stack_t **stack, unsigned int num_line);
 void mod(stack_t **stack, unsigned int num_line);
 FILE *file_opener(char *fd);
-
+ssize_t getline(char **lineptr, size_t *n, FILE *stream);
 #endif 

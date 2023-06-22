@@ -6,7 +6,7 @@
   * Return: Nothing
   */
 
-void args_check(int agc)
+void args_checker(int agc)
 {
 	if (agc != MINI_ARG)
 		error_handler(ERROR_USE, NULL, 0, NULL);
