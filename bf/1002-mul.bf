@@ -14,6 +14,7 @@
 <- @a1
 >
 ]
+,       # read character and store it in p2
 # substract 48 from it to remove the ascii addition
 >@3
 [
