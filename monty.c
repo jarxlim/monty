@@ -37,7 +37,7 @@ void line_free(int stat, void *argm)
 char **line_ptr = argm;
 (void) stat;
 if (*line_ptr != NULL)
-free(*lineptr);
+free(*line_ptr);
 }
 
 /**

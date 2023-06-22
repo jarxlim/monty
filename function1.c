@@ -89,7 +89,7 @@ dive.stack_size--;
  * @stack: pointer to the top node
  * @l: file line number
  */
-void instruct_swap(stack_t **stack, unsigned int l __attribute__ ((unused)))
+void get_swap(stack_t **stack, unsigned int l __attribute__ ((unused)))
 {
 stack_t *temp;
 if (dive.stack_size < 2)

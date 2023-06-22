@@ -14,7 +14,7 @@ fprintf(stderr, "L%u: can't add, stack too short\n", l);
 exit(EXIT_FAILURE);
 }
 n += (*stack)->n;
-instruct_pop(stack, l);
+get_pop(stack, l);
 (*stack)->n += n;
 }
 
