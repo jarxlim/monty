@@ -1,44 +1,43 @@
 #include "monty.h"
 
 /**
- * digit_check - func that checks string is digit
- * @s: string input
- * Return: 0 if digit or 1 not digit
- */
+  * stackfreed - Frees all nodes
+  * Return: Nothing
+  */
 
-int digit_check(char *s)
+void stackfreed(void)
 {
-int chr;
-for (chr = 0; s[chr]; chr++)
-{
-if (s[chr] == '-' && chr == 0)
-continue;
-if (isdigit(s[chr]) == 0)
-return (1);
-}
-return (0);
-}
+	stack_t *current = NULL;
 
-/**
- * queue_settet - func that sets the format of the data to queue
- * @stack: pointer to the top
- * @l: line number
- */
-void queue_setter(stack_t **stack, unsigned int l)
-{
-(void) stack;
-(void) l;
-dive.queue_size = QUEUES;
+	if (head)
+	{
+		current = head;
+
+		while (current)
+		{
+			head = head->next;
+			free(current);
+			current = head;
+		}
+	}
 }
 
 /**
- * stack_setter - func that sets the format of the data to a stack
- * @stack: pointer to the top
- * @l: line number
- */
-void stack_setter(stack_t **stack, unsigned int l)
+  * stack_size - Counts the number of element
+  * @stack: Head of the stack to number
+  * Return: Number of elements in the stack
+  */
+
+unsigned int stack_size(stack_t *stack)
 {
-(void) stack;
-(void) l;
-dive.queue_size = STACKS;
+	stack_t *current = stack;
+	unsigned int length = 0;
+
+	while (current)
+	{
+		length++;
+		current = current->next;
+	}
+
+	return (length);
 }

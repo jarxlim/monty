@@ -1,102 +1,50 @@
 #include "monty.h"
-#define _POSIX_C_SOURCE 200809L
 
-
-dive_t dive;
+stack_t *head = NULL;
 
 /**
- * stackfreed - function that frees malloced stack nodes
- * @argm: pointer to the stack
- * @stat: status exit
- */
-void stackfreed(int stat, void *argm)
-{
-stack_t **stack;
-stack_t *temp;
-(void) stat;
-stack = (stack_t **)argm;
-if (*stack)
-{
-(*stack)->prev->next = NULL;
-(*stack)->prev = NULL;
-}
-while (*stack != NULL)
-{
-temp = (*stack)->next;
-free(*stack);
-*stack = temp;
-}
-dive.stack_size = 0;
-}
-
-/**
- * line_free - function that frees the line pointer
- * @stat: status exit
- * @argm: pointer to the line
- */
-void line_free(int stat, void *argm)
-{
-char **line_ptr = argm;
-(void) stat;
-if (*line_ptr != NULL)
-free(*line_ptr);
-}
-
-/**
- * close_file - func that closes file
- * @stat: status passed to the exit
- * @argm: pointer to file
- */
-void close_file(int stat, void *argm)
-{
-FILE *files;
-(void) stat;
-files = (FILE *) argm;
-fclose(files);
-}
-
-
-/**
- * main - func that interprets the monty byytecode
- * @argc: the size of the command line arguments
- * @argv: the array of strings
- * Return: exit on failure or 0 Success
- */
+  * main - Entry point
+  * @argc: Number of arguments
+  * @argv: the arguments passed.
+  *
+  * Return: Always 0.
+  */
 
 int main(int argc, char *argv[])
 {
-stack_t *stack = NULL;
-unsigned int l = 0;
-FILE *files = NULL;
-char *line_ptr = NULL, *opera = NULL;
-size_t length = 0;
+	FILE *m_files = NULL;
+	size_t cmd_size = 0;
+	unsigned int num_line = 0;
+	int cmd = 0, status = 0;
+	char *fd = NULL, *opcode = NULL, *data = NULL, *line_reader = NULL;
 
-dive.queue_size = 0;
-dive.stack_size = 0;
-if (argc != 2)
-{
-fprintf(stderr, "USAGE: monty file\n");
-exit(EXIT_FAILURE);
-}
-files = fopen(argv[1], "r");
-if (files == NULL)
-{
-fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-exit(EXIT_FAILURE);
-}
+	fd = argv[1];
+	args_checker(argc);
+	m_files = file_opener(fd);
 
-on_exit(line_free, &line_ptr);
-on_exit(stackfreed, &stack);
-on_exit(close_file, files);
+	while ((cmd = getline(&line_reader, &cmd_size, m_files)) != -1)
+	{
+		num_line++;
+		opcode = strtok(line_reader, " \t\n");
+		if (opcode)
+		{
+			if (opcode[0] == '#')
+				continue;
 
-while (getline(&line_ptr, &length, files) != -1)
-{
-l++;
-opera = strtok(line_ptr, "\n\t\r ");
-if (opera != NULL && opera[0] != '#')
-{
-opera_call(&stack, opera, l);
-}
-}
-exit(EXIT_SUCCESS);
+			data = strtok(NULL, " \t\n");
+			status = exec_handler(opcode, data, num_line, status);
+
+			if (status >= 100 && status < 300)
+			{
+				fclose(m_files);
+				error_handler(status, opcode, num_line, line_reader);
+			}
+		}
+
+	}
+
+	stackfreed();
+	free(line_reader);
+	fclose(m_files);
+	return (0);
 }
