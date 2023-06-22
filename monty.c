@@ -1,4 +1,6 @@
 #include "monty.h"
+#define _POSIX_C_SOURCE 200809L
+
 
 dive_t dive;
 
@@ -83,9 +85,9 @@ fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 exit(EXIT_FAILURE);
 }
 
-when_exited(line_free, &line_ptr);
-when_exited(stackfreed, &stack);
-when_exited(close_file, files);
+on_exit(line_free, &line_ptr);
+on_exit(stackfreed, &stack);
+on_exit(close_file, files);
 
 while (getline(&line_ptr, &length, files) != -1)
 {

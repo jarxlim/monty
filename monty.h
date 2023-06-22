@@ -63,7 +63,7 @@ void close_file(int, void *);
 void opera_call(stack_t **, char *, unsigned int);
 
 void get_push(stack_t **, unsigned int);
-void get_printall6(stack_t **, unsigned int);
+void get_printall(stack_t **, unsigned int);
 void get_printtop(stack_t **stack, unsigned int);
 void get_pop(stack_t **stack, unsigned int);
 void get_swap(stack_t **stack, unsigned int);

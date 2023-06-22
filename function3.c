@@ -1,5 +1,5 @@
 #include "monty.h"
-
+#include <ctype.h>
 /**
  * get_mod - funct that rest the division of the second top by the top
  * @stack: pointer to the top node
@@ -28,7 +28,7 @@ exit(EXIT_FAILURE);
  * @stack: pointer to the top node
  * @l: file line number
  */
-void get_pchar(stack_t **stack, unsigned int l)
+void get_char(stack_t **stack, unsigned int l)
 {
 int c;
 if (dive.stack_size < 1)
